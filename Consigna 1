@@ -1,0 +1,71 @@
+#include <SFML/Window.hpp>
+#include <SFML/Graphics.hpp>
+#include <SFML/System.hpp>
+
+using namespace sf;
+
+int main() {
+    // Dimensiones de la ventana
+    const int maxX = 800;
+    const int maxY = 600;
+
+    // Creamos la ventana
+    RenderWindow window(VideoMode(maxX, maxY, 32), "Ventana con Texturas");
+
+    // Cargamos la textura del archivo
+    Texture texture;
+    if (!texture.loadFromFile("J:/UNL/MAVI/Unidad 3 - 1410/Unidad3_Assets/rcircle.png")) {
+        return -1; // Manejo de error si la textura no se carga
+    }
+
+    // Obtenemos el tamaño de la textura
+    Vector2u textureSize = texture.getSize();
+    float textureWidth = textureSize.x * 0.0560; // Escalar según sea necesario
+    float textureHeight = textureSize.y * 0.0560;
+
+    // Creamos y configuramos los sprites
+    Sprite sprite1, sprite2, sprite3, sprite4;
+
+    sprite1.setTexture(texture);
+    sprite1.setScale(0.0560, 0.0560);
+    sprite1.setPosition(0, 0); // Esquina superior izquierda
+
+    sprite2.setTexture(texture);
+    sprite2.setScale(0.0560, 0.0560);
+    sprite2.setPosition(0, maxY - textureHeight); // Esquina inferior izquierda
+
+    sprite3.setTexture(texture);
+    sprite3.setScale(0.0560, 0.0560);
+    sprite3.setPosition(maxX - textureWidth, 0); // Esquina superior derecha
+
+    sprite4.setTexture(texture);
+    sprite4.setScale(0.0560, 0.0560);
+    sprite4.setPosition(maxX - textureWidth, maxY - textureHeight); // Esquina inferior derecha
+
+    // Bucle principal
+    while (window.isOpen()) {
+        // Manejo de eventos
+        Event event;
+        while (window.pollEvent(event)) {
+            if (event.type == Event::Closed) {
+                window.close();
+            } else if (event.type == Event::KeyPressed && event.key.code == Keyboard::Escape) {
+                window.close();
+            }
+        }
+
+        // Limpiamos la ventana
+        window.clear();
+
+        // Dibujamos los sprites
+        window.draw(sprite1);
+        window.draw(sprite2);
+        window.draw(sprite3);
+        window.draw(sprite4);
+
+        // Mostramos la ventana
+        window.display();
+    }
+
+    return 0;
+}
